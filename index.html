@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEDD MUSIC STORE - Instruments & Gear</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#fbf9f6]">
+<nav class="flex justify-between items-center px-6 md:px-10 py-4 bg-white sticky top-0 z-50 shadow-sm">
+  <div class="flex items-center gap-3">
+    <div class="w-11 h-11 bg-zinc-900 rounded-full flex items-center justify-center text-amber-400 text-2xl">𝄞</div>
+    <div><p class="font-bold leading-none">ZEDD MUSIC</p><p class="text-xs tracking-[0.2em] text-amber-600">STORE</p></div>
+  </div>
+  <div class="flex gap-3">
+    <a href="https://wa.me/2348167478185" class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold">Chat on WhatsApp</a>
+    <a href="cart.html" class="bg-zinc-900 text-white px-5 py-2 rounded-full text-sm">Cart (<span id="cart-count">0</span>)</a>
+  </div>
+</nav>
+
+<section class="px-6 md:px-10 py-12 grid md:grid-cols-2 gap-8 items-center">
+  <div>
+    <h1 class="text-5xl font-bold">Instruments That<br>Inspire You.</h1>
+    <p class="mt-4 text-zinc-600">Zedd Music Store sells violins, guitars, keyboards, drums, studio mics, amplifiers, strings, bows & all components. Port Harcourt based, delivers nationwide.</p>
+    <div class="flex gap-3 mt-6"><a href="#shop" class="bg-amber-600 text-white px-7 py-3 rounded-full font-semibold">Shop Now</a><a href="https://wa.me/2348167478185" class="border border-zinc-900 px-7 py-3 rounded-full font-semibold">Ask for Price</a></div>
+  </div>
+  <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=800" class="rounded-[2rem] h-[400px] object-cover w-full shadow-xl">
+</section>
+
+<section id="shop" class="px-6 md:px-10 pb-20">
+<div id="products" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+</section>
+
+<script>
+const products = [
+  {id:1, name:"Beginner Violin Kit + Bow + Case", price:60000, img:"https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=500", tag:"-20% OFF"},
+  {id:2, name:"Classical Guitar Full Size", price:65000, img:"https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?q=80&w=500", tag:"HOT"},
+  {id:3, name:"Yamaha PSR-E373 Keyboard", price:185000, img:"https://images.unsplash.com/photo-1558098329-a11cff621064?q=80&w=500", tag:"NEW"},
+  {id:4, name:"5-Piece Drum Set", price:250000, img:"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=500", tag:"DEAL"},
+  {id:5, name:"Violin Strings Set", price:5000, img:"https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?q=80&w=500", tag:"COMPONENT"},
+  {id:6, name:"Studio Mic + Audio Interface", price:95000, img:"https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=500", tag:"BUNDLE"},
+];
+let cart = JSON.parse(localStorage.getItem('zedd_cart')||'[]');
+function save(){localStorage.setItem('zedd_cart', JSON.stringify(cart)); document.getElementById('cart-count').innerText=cart.reduce((a,b)=>a+b.qty,0);}
+function add(id){let f=cart.find(c=>c.id==id); if(f) f.qty++; else cart.push({id,qty:1}); save(); alert('Added to cart - Zedd Music Store');}
+document.getElementById('products').innerHTML=products.map(p=>`
+  <div class="bg-white rounded-2xl p-4 border">
+    <span class="text-[10px] bg-zinc-900 text-amber-400 px-2 py-1 rounded-full font-bold">${p.tag}</span>
+    <img src="${p.img}" class="h-52 w-full object-cover rounded-xl mt-3">
+    <h3 class="font-semibold mt-3">${p.name}</h3>
+    <p class="font-bold text-amber-600">₦${p.price.toLocaleString()}</p>
+    <button onclick="add(${p.id})" class="w-full mt-3 bg-zinc-900 text-white py-3 rounded-full text-sm font-bold">Add to Cart</button>
+  </div>`).join('');
+save();
+</script>
+<footer class="bg-white border-t p-6 text-center text-sm text-zinc-500">© 2026 ZEDD MUSIC STORE - WhatsApp: +2348167478185 - Port Harcourt</footer>
+</body>
+</html>

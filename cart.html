@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout - ZEDD MUSIC STORE</title><script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-[#fbf9f6] px-6 md:px-20 py-10">
+<a href="index.html" class="underline text-sm">← Back to Zedd Music Store</a>
+<h1 class="text-4xl font-bold mt-6">Checkout</h1>
+<p class="text-zinc-500 mb-8">Your order will be sent to WhatsApp +2348167478185</p>
+<div class="grid md:grid-cols-2 gap-10">
+  <div id="items" class="bg-white rounded-2xl p-6 border"></div>
+  <div class="bg-zinc-900 text-white rounded-2xl p-6 h-fit">
+    <input id="name" placeholder="Full Name" class="w-full p-3 rounded-xl text-zinc-900 mb-3">
+    <input id="phone" placeholder="Your WhatsApp Number" class="w-full p-3 rounded-xl text-zinc-900 mb-3">
+    <textarea id="addr" placeholder="Delivery Address" class="w-full p-3 rounded-xl text-zinc-900 mb-4"></textarea>
+    <div class="flex justify-between"><span>Total</span><span id="total" class="text-2xl font-bold">₦0</span></div>
+    <button onclick="order()" class="w-full bg-green-500 py-4 rounded-full font-bold mt-5">Place Order via WhatsApp</button>
+  </div>
+</div>
+<script>
+const products=[{id:1,name:"Beginner Violin Kit",price:60000},{id:2,name:"Classical Guitar",price:65000},{id:3,name:"Yamaha PSR-E373",price:185000},{id:4,name:"Drum Set",price:250000},{id:5,name:"Violin Strings",price:5000},{id:6,name:"Studio Bundle",price:95000}];
+let cart=JSON.parse(localStorage.getItem('zedd_cart')||'[]');
+function render(){let t=0; document.getElementById('items').innerHTML=cart.length?cart.map(c=>{let p=products.find(x=>x.id==c.id); t+=p.price*c.qty; return `<div class="flex justify-between py-3 border-b"><span>${p.name} x${c.qty}</span><span>₦${(p.price*c.qty).toLocaleString()} <button onclick="rem(${c.id})" class="text-red-500">x</button></span></div>`}).join(''):`<p>Cart empty - <a href="index.html" class="underline">Go shopping</a></p>`; document.getElementById('total').innerText='₦'+t.toLocaleString();}
+function rem(id){cart=cart.filter(c=>c.id!=id); localStorage.setItem('zedd_cart',JSON.stringify(cart)); render();}
+function order(){let n=document.getElementById('name').value,p=document.getElementById('phone').value,a=document.getElementById('addr').value; if(!n||!p) return alert('Enter name & phone'); let total=0, msg=`Hello ZEDD MUSIC STORE!%0A%0ANew Order:%0A`; cart.forEach(c=>{let pr=products.find(x=>x.id==c.id); msg+=`- ${pr.name} x${c.qty} = ₦${pr.price*c.qty}%0A`; total+=pr.price*c.qty;}); msg+=`%0ATotal: ₦${total}%0AName: ${n}%0APhone: ${p}%0AAddress: ${a}`; window.open(`https://wa.me/2348167478185?text=${msg}`,'_blank');}
+render();
+</script>
+</body>
+</html>
